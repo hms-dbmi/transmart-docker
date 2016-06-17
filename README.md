@@ -1,3 +1,6 @@
+##NOTE
+The initial commit of this lacks the huge zip files required for Pentaho Data Integration and the tranSMART-ETL zip.
+
 ## Useful Docker Commands
 
 ```bash
