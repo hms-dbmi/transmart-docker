@@ -25,11 +25,14 @@ ADD pdi-ce-6.1.0.1-196.zip /usr/local/
 
 RUN mkdir -p /opt/etl/src/
 RUN unzip /usr/local/pdi-ce-6.1.0.1-196.zip -d /opt/etl/src/
+RUN rm -f /usr/local/pdi-ce-6.1.0.1-196.zip
 
 ADD tranSMART-ETL.zip /opt/etl/src/
 
 RUN unzip /opt/etl/src/tranSMART-ETL.zip -d /opt/etl/src/
-RUN mv /opt/etl/src/tranSMART-ETL-master/ /opt/etl/src/tranSMART-ETL/
+RUN mv /opt/etl/src/tranSMART-ETL-v.1.0.0/ /opt/etl/src/tranSMART-ETL/
+RUN rm -f /opt/etl/src/tranSMART-ETL.zip
 
-RUN mkdir -p /.kettle/
-ADD kettle.properties /.kettle/
+RUN mkdir -p /root/.kettle/
+ADD kettle.properties /root/.kettle/
+ADD ojdbc6.jar /opt/etl/src/data-integration/lib/
