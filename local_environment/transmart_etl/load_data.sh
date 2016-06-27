@@ -16,6 +16,8 @@ docker exec i2b2transmartetl /bin/sh -c '/opt/etl/src/data-deployments-public/fe
 
 docker exec i2b2transmartetl /bin/sh -c 'cd /opt/etl/src/data-deployments-public/;/opt/etl/src/data-deployments-public/fetchPublicData.sh'
 
+#docker exec i2b2transmartetl /bin/sh -c '/opt/etl/src/data-deployments-public/script_files/GSE31773/create_clinical_data.sh'
+
 
 
 
