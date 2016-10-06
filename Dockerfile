@@ -1,38 +1,8 @@
-FROM ubuntu:14.04
-
+FROM tomcat:8.0.36
 ENV TOMCAT_VERSION 8.0.36
-
-# Set locales
-RUN locale-gen en_GB.UTF-8
-ENV LANG en_GB.UTF-8
-ENV LC_CTYPE en_GB.UTF-8
 
 # Fix sh
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
-# Install dependencies
-RUN apt-get update
-RUN apt-get install -y git build-essential curl wget software-properties-common unzip ruby-full
-
-# Install JDK 7
-RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN apt-get update
-RUN apt-get install -y oracle-java7-installer tar
-RUN rm -rf /var/lib/apt/lists/*
-RUN rm -rf /var/cache/oracle-jdk7-installer
-
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
-
-# Get Tomcat
-RUN wget --quiet --no-cookies http://apache.rediris.es/tomcat/tomcat-8/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -O /tmp/tomcat.tgz
-
-# Uncompress
-RUN tar xzvf /tmp/tomcat.tgz -C /usr/local
-RUN ln -s /usr/local/apache-tomcat-${TOMCAT_VERSION} /usr/local/tomcat
-RUN ln -s /usr/local/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat
-RUN rm /tmp/tomcat.tgz
 
 # Remove garbage
 RUN rm -rf /usr/local/tomcat/webapps/examples
@@ -42,19 +12,44 @@ RUN rm -rf /usr/local/tomcat/webapps/docs
 # Add admin/admin user
 ADD tomcat-users.xml /usr/local/tomcat/conf/
 
-ENV CATALINA_HOME /usr/local/tomcat
-ENV PATH $PATH:$CATALINA_HOME/bin
-ENV CATALINA_OPTS "$CATALINA_OPTS -XX:MaxPermSize=512m"
+# Update logging file
+RUN echo "org.apache.jasper.servlet.TldScanner.level = FINE" >> /usr/local/tomcat/conf/logging.properties
+RUN echo "org.apache.catalina.core.ContainerBase.[Catalina].level = INFO" >> /usr/local/tomcat/conf/logging.properties
+RUN echo "org.apache.catalina.core.ContainerBase.[Catalina].handlers = java.util.logging.ConsoleHandler" >> /usr/local/tomcat/conf/logging.properties
 
+ENV CATALINA_OPTS "-Xms768m -Xmx1024m -XX:MaxPermSize=512m"
 EXPOSE 8090
 EXPOSE 8009
 
-RUN gem install tiller
+COPY transmart.war /usr/local/tomcat/webapps/
 
-ADD data/tiller /etc/tiller
+#ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "start"]
 
-COPY transmart.war /usr/local/tomcat/webapps
+### OLD ENTRYPOINT
+RUN apt-get -y update && apt-get -y install nginx
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y less
+RUN apt-get -y install ruby && gem install tiller
 
-CMD ["/usr/local/bin/tiller" , "-v"]
+#ADD data/tiller /etc/tiller
+
+#RUN DEBIAN_FRONTEND=noninteractive apt-get install -y less
+
+#ENTRYPOINT ["/usr/local/bin/tiller" , "-v"]
+######
+
+# FOLLOWING IS FOR TESTING PURPOSES ONLY
+# runit depends on /etc/inittab which is not present in debian:jessie
+RUN touch /etc/inittab
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y -q runit
+
+RUN mkdir -p /etc/service/tiller
+RUN echo "#!/bin/bash" >> /etc/service/tiller/run
+RUN echo "source /etc/envars" >> /etc/service/tiller/run
+RUN echo "exec /usr/local/bin/tiller -v" >> /etc/service/tiller/run
+
+RUN echo "#!/bin/bash" >> /usr/sbin/runit_bootstrap
+RUN echo "export > /etc/envars" >> /usr/sbin/runit_bootstrap
+RUN echo "exec /usr/sbin/runsvdir-start" >> /usr/sbin/runit_bootstrap
+RUN chmod 755 /usr/sbin/runit_bootstrap
+ENTRYPOINT ["/usr/sbin/runit_bootstrap"]
