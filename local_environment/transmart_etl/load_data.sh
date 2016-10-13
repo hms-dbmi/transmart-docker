@@ -3,7 +3,7 @@
 docker stop i2b2transmartetl
 docker rm i2b2transmartetl
 
-docker run -d --net i2b2-net --name i2b2transmartetl dbmi/i2b2transmart-etl tail -f /dev/null
+docker run -d --net i2b2-net --label app.name=transmart-1.2.4 --label app.environment=dev --name i2b2transmartetl dbmi/i2b2transmart-etl tail -f /dev/null
 
 docker cp kettle.properties i2b2transmartetl:/root/.kettle/kettle.properties
 docker cp data-deployments-public.zip i2b2transmartetl:/opt/data-deployments-public.zip

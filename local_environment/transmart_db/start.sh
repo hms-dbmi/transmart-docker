@@ -2,7 +2,7 @@
 
 docker stop i2b2transmartdb > log.txt
 docker rm i2b2transmartdb > log.txt
-docker run -d -p 49160:22 -p 1521:1521 -e ORACLE_ALLOW_REMOTE=true --net i2b2-net --name i2b2transmartdb dbmi/i2b2transmart-db > log.txt
+docker run -d -p 49160:22 -p 1521:1521 -e ORACLE_ALLOW_REMOTE=true --net i2b2-net --label app.name=transmart-1.2.4 --label app.environment=dev --name i2b2transmartdb dbmi/i2b2transmart-db > log.txt
 
 sleep 10
 
