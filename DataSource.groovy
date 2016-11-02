@@ -10,10 +10,9 @@ pooled = true
 // standard jdbc driver
 driverClassName ="oracle.jdbc.driver.OracleDriver"
 
-//url = "jdbc:oracle:thin:@10.0.2.2:1521:xe"
-url = "jdbc:oracle:thin:@${System.getenv("DB_URL")}:${System.getenv('DB_PORT')}:xe"
-username = "${System.getenv('DB_USERNAME')}"
-password = "${System.getenv('DB_PASSWORD')}"
+url = "jdbc:oracle:thin:@192.168.99.100:1521:xe"
+username = "biomart_user"
+password = "biomart_user"
 
 // hibernate database connection dialect
 dialect = "org.hibernate.dialect.Oracle10gDialect"
