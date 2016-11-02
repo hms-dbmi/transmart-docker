@@ -4,8 +4,6 @@ docker stop i2b2transmartdb > log.txt
 docker rm i2b2transmartdb > log.txt
 docker run -d -p 49160:22 -p 1521:1521 -e ORACLE_ALLOW_REMOTE=true --net i2b2-net --label app.name=transmart-1.2.4 --label app.environment=dev --name i2b2transmartdb dbmi/i2b2transmart-db > log.txt
 
-sleep 10
-
 docker exec i2b2transmartdb env
 
 docker cp ./create_users.sql i2b2transmartdb:/usr/local/create_users.sql
@@ -14,6 +12,9 @@ docker cp ./customize_install.sql i2b2transmartdb:/usr/local/customize_install.s
 
 docker exec i2b2transmartdb /bin/sh -c "chmod 770 /usr/local/install_i2b2_data.sh"
 docker exec i2b2transmartdb /bin/sh -c "chmod 770 /usr/local/customize_install.sql"
+
+# add wait before running scripts. sometimes username input shows up instead of script executing
+sleep 20
 
 echo "run create users"
 docker exec i2b2transmartdb /bin/sh -c "export ORACLE_SID=XE;export PATH=/u01/app/oracle/product/11.2.0/xe/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin;export ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe;sqlplus system/oracle @/usr/local/create_users.sql"
