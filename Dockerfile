@@ -10,11 +10,14 @@ RUN apt-get -y install unzip
 
 # ADD kettle
 RUN mkdir -p /opt/etl/src/
-RUN cd /opt/etl/src/ && wget https://sourceforge.net/projects/pentaho/files/Data%20Integration/6.1/pdi-ce-6.1.0.1-196.zip && unzip pdi-ce-6.1.0.1-196.zip
+RUN curl -L -o /opt/etl/pdi-ce-6.1.0.1-196.zip https://sourceforge.net/projects/pentaho/files/Data%20Integration/6.1/pdi-ce-6.1.0.1-196.zip
+RUN unzip /opt/etl/pdi-ce-6.1.0.1-196.zip -d /opt/etl/src/
 RUN rm -f /opt/etl/pdi-ce-6.1.0.1-196.zip
 
-ADD ./tranSMART-ETL.zip /opt/etl/src/
+# ADD transmart etl
+RUN curl -L -o /opt/etl/src/tranSMART-ETL.zip https://github.com/hms-dbmi/tranSMART-ETL/archive/master.zip
 RUN unzip /opt/etl/src/tranSMART-ETL.zip -d /opt/etl/src/
+RUN mv /opt/etl/src/tranSMART-ETL-master /opt/etl/src/tranSMART-ETL
 RUN rm -f /opt/etl/src/tranSMART-ETL.zip
 
 RUN mkdir -p /root/.kettle/
