@@ -14,7 +14,7 @@ docker exec i2b2transmartdb /bin/sh -c "chmod 770 /usr/local/install_i2b2_data.s
 docker exec i2b2transmartdb /bin/sh -c "chmod 770 /usr/local/customize_install.sql"
 
 # add wait before running scripts. sometimes username input shows up instead of script executing
-sleep 20
+sleep 30
 
 echo "run create users"
 docker exec i2b2transmartdb /bin/sh -c "export ORACLE_SID=XE;export PATH=/u01/app/oracle/product/11.2.0/xe/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin;export ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe;sqlplus system/oracle @/usr/local/create_users.sql"

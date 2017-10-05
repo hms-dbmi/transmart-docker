@@ -2,7 +2,7 @@
 
 docker stop i2b2-wildfly
 docker rm i2b2-wildfly
-docker run -d -p 8080:8080 -p 9990:9990 --net i2b2-net --label app.name=transmart-1.2.4 --label app.environment=dev --name i2b2-wildfly i2b2/i2b2-wildfly:0.1
+docker run -d --net i2b2-net --label app.name=transmart-1.2.4 --label app.environment=dev --name i2b2-wildfly i2b2/i2b2-wildfly:0.1
 
 docker cp crc-ds.xml i2b2-wildfly:/opt/jboss/wildfly/standalone/deployments/crc-ds.xml
 docker cp ont-ds.xml i2b2-wildfly:/opt/jboss/wildfly/standalone/deployments/ont-ds.xml

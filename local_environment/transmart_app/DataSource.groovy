@@ -10,7 +10,7 @@ pooled = true
 // standard jdbc driver
 driverClassName ="oracle.jdbc.driver.OracleDriver"
 
-url = "jdbc:oracle:thin:@192.168.99.100:1521:xe"
+url = "jdbc:oracle:thin:@i2b2transmartdb:1521:xe"
 username = "biomart_user"
 password = "biomart_user"
 
