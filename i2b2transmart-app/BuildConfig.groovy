@@ -9,4 +9,3 @@ grails.plugin.location.'transmart-core'   = '../core-db'
 //grails.plugin.location.'transmart-mydas'  = '../transmart-mydas'
 //grails.plugin.location.'transmart-i2b2' = "../transmart-i2b2-plugin"
 //grails.plugin.location.'transmart-core-api' = "../transmart-core-api"
-

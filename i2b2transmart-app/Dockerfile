@@ -11,8 +11,7 @@ RUN rm -rf /usr/local/tomcat/webapps/docs
 
 ENV CATALINA_OPTS "-Xms512m -Xmx1024m -XX:MaxPermSize=512m"
 
-RUN mkdir /root/.grails
-RUN mkdir /root/.grails/transmartConfig
+RUN mkdir -p /root/.grails/transmartConfig
 
 # Add admin/admin user
 COPY tomcat-users.xml /usr/local/tomcat/conf/

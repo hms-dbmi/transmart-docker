@@ -1,34 +1,43 @@
- /**
- * Configuration for database connection - this file will be loaded
- * by the tranSMART application when the tomcat is restarted
- */
-
-
 dataSource {
-// pooled connection
-pooled = true
-// standard jdbc driver
-driverClassName ="oracle.jdbc.driver.OracleDriver"
-
-url = "jdbc:oracle:thin:@192.168.99.100:1521:xe"
-username = "biomart_user"
-password = "biomart_user"
-
-// hibernate database connection dialect
-dialect = "org.hibernate.dialect.Oracle10gDialect"
-// enable this for SQL debugging
-loggingSql =true
-
+    driverClassName = 'oracle.jdbc.driver.OracleDriver'
+    url             = 'jdbc:oracle:thin:@i2b2transmartdb:1521:xe'
+    dialect         = 'org.hibernate.dialect.Oracle10gDialect'
+    username        = 'biomart_user'
+    password        = 'biomart_user'
+    dbCreate        = 'none'
 }
 
 hibernate {
-// hibernate cache config
-cache.use_second_level_cache=true
-//turn on query cache
-cache.use_query_cache=true
-cache.provider_class='org.hibernate.cache.EhCacheProvider'
-// pool size
-connection.pool_size=30
-//format_sql = true
-//use_sql_comments = true
+    cache.use_second_level_cache = true
+    cache.use_query_cache        = true
+    cache.provider_class         = 'org.hibernate.cache.EhCacheProvider'
 }
+
+environments {
+    development {
+        dataSource {
+            logSql    = false
+            formatSql = true
+             properties {
+                maxActive   = 10
+                maxIdle     = 5
+                minIdle     = 2
+                initialSize = 2
+            }
+        }
+    }
+    production {
+        dataSource {
+            logSql    = false
+            formatSql = false
+             properties {
+                maxActive   = 50
+                maxIdle     = 25
+                minIdle     = 5
+                initialSize = 5
+            }
+        }
+    }
+}
+
+// vim: set ts=4 sw=4 et:

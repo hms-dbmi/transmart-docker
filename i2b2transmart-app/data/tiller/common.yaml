@@ -1,6 +1,0 @@
-data_sources:
-  - file
-  - environment
-template_sources:
-  - file
-exec: [ "/usr/local/tomcat/bin/catalina.sh" , "run" ]

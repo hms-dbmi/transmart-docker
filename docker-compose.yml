@@ -1,0 +1,74 @@
+version: '2'
+services:
+
+  ## i2b2transmart stack ##
+  # i2b2transmart
+  i2b2transmartapp:
+    image: dbmi/i2b2transmart-app:1.2.4
+    labels:
+      - "app.name=transmart-1.2.4"
+      - "app.environment=dev"
+    environment:
+      - environment=tm-dev
+      # debug options
+      - JPDA_OPTS="-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
+      - JPDA_ADDRESS=8000
+      - JPDA_TRANSPORT=dt_socket
+    entrypoint: ./bin/catalina.sh jpda run
+    restart: always
+    depends_on:
+      - i2b2transmartdb
+    networks:
+      - i2b2-net
+    ports:
+      - 8080:8080
+      # debug port
+      - 8000:8000
+    mem_limit: "2g"
+
+  # i2b2-wildfly
+  i2b2-wildfly:
+    image: dbmi/i2b2-wildfly:1.2.4
+    labels:
+      - "app.name=transmart-1.2.4"
+      - "app.environment=dev"
+    restart: always
+    depends_on:
+      - i2b2transmartdb
+    networks:
+      - i2b2-net
+    expose:
+      - 9090
+
+
+  # etl
+  i2b2transmartetl:
+    image: dbmi/i2b2transmart-etl:1.2.4
+    container_name: i2b2transmartetl
+    labels:
+      - "app.name=transmart-1.2.4"
+      - "app.environment=dev"
+    command: tail -f /dev/null
+    depends_on:
+      - i2b2transmartdb
+    networks:
+      - i2b2-net
+
+  # oracle db
+  i2b2transmartdb:
+    image: dbmi/i2b2transmart-db:1.2.4
+    container_name: i2b2transmartdb
+    labels:
+      - "app.name=transmart-1.2.4"
+      - "app.environment=dev"
+    environment:
+      - ORACLE_ALLOW_REMOTE=true
+    restart: on-failure
+    ports:
+      - 1521:1521
+    networks:
+      - i2b2-net
+
+
+networks:
+    i2b2-net:
