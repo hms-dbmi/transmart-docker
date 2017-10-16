@@ -10,7 +10,7 @@ docker-compose up -d
 ```
 i2b2transmart is avaialbe at `http://docker-machine IP:8080/transmart`
 
-### Run i2b2transmat 1.2.4 with different datas ets.
+### Run i2b2transmat 1.2.4 with different data sets.
 
 1. Update the docker-compose file, and change the i2b2transmartdb image from dbmi/i2b2transmart-db:1.2.4-GSE31773 to dbmi/i2btransmart-db:1.2.4
 This is an i2b2transmart database with no datasets added.
