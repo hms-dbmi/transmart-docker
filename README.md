@@ -1,6 +1,6 @@
 # transmart-docker
 
-Build and deploy i2b2transmat 1.2.4
+Deploy i2b2transmat 1.2.4
 
 ### Run i2b2transmart 1.2.4 with GSE31773 public data set. 
 
