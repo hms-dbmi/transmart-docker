@@ -29,7 +29,7 @@ ui {
         //Search was not part of 1.2. It's not working properly. You need to set `show` to `true` to see it on UI
         search.show = false
 
-        browse.hide = false
+        browse.hide = true
         //Note: analyze tab is always shown
         sampleExplorer.hide = false
         geneSignature.hide = false
@@ -173,7 +173,7 @@ environments { development { com.recomdata.guestAutoLogin = true }
 // the account that tranSMART will automatically authenticate users as. This will
 // control the level of access anonymous users will have (the access will be match
 // that of the account specified here).
-com.recomdata.guestUserName = 'guest'
+com.recomdata.guestUserName = 'tmuser'
 /* }}} */
 
 /* {{{ Search tool configuration */

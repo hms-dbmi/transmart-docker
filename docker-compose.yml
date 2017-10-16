@@ -56,7 +56,7 @@ services:
 
   # oracle db
   i2b2transmartdb:
-    image: dbmi/i2b2transmart-db:1.2.4
+    image: dbmi/i2b2transmart-db:1.2.4-GSE31773
     container_name: i2b2transmartdb
     labels:
       - "app.name=transmart-1.2.4"
