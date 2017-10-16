@@ -1,6 +1,6 @@
 # transmart-docker
 
-Deploy i2b2transmat 1.2.4
+Build and Deploy i2b2transmat 1.2.4
 
 ### Run i2b2transmart 1.2.4 with GSE31773 public data set. 
 
@@ -10,9 +10,15 @@ docker-compose up -d
 ```
 i2b2transmart is avaialbe at `http://docker-machine IP:8080/transmart`
 
+### Build the i2b2transmart 1.2.4 database
+```
+1. cd i2b2transmart-db
+2. ./build.sh
+```
+
 ### Run i2b2transmat 1.2.4 with different data sets.
 
-1. Update the docker-compose file, and change the i2b2transmartdb image from dbmi/i2b2transmart-db:1.2.4-GSE31773 to dbmi/i2btransmart-db:1.2.4
+1. Update the docker-compose file, and change the i2b2transmartdb image from dbmi/i2b2transmart-db:1.2.4-GSE31773 to dbmi/i2btransmart-db:1.2.4 (see above to build this on your own)
 This is an i2b2transmart database with no datasets added.
 2. Use your own ETL process to populate the database. The database is available at the IP of your docker-machine port 1521.
 Oracle system default username/passwords are used.
