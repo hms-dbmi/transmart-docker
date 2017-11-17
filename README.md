@@ -50,3 +50,4 @@ home> docker commit i2b2transmartdb dbmi/i2b2transmart-db:1.2.4-<dataset>
 ```
 
 
+transmart 1.2.4 is available at http://[docker host]:8080/transmart, e.g. http://192.168.99.100:8080/transmart
